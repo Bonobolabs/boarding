@@ -35,6 +35,8 @@ gem 'http_accept_language', '~> 2.0.5'
 
 gem 'dotenv'
 
+gem 'platform-api'
+
 group :production do
   gem 'puma'
   gem 'rails_12factor'
@@ -52,3 +54,4 @@ group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
 end
+
