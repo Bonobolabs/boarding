@@ -89,48 +89,6 @@ Heroku is free to use for the standard machine. If you need a Heroku account, as
 
 ---
 
-# Scheduled dyno restarting
-
-1. Set up runtime-dyno-metadata:
-
-```bash
-heroku labs:enable runtime-dyno-metadata --app <Heroku app name>
-```
-
-2. Create OAuth token:
-
-```bash
-heroku authorizations:create -d "Fastlane boarding task"
-```
-
-3. Set token as config env:
-
-```bash
-heroku config:set HEROKU_OAUTH_TOKEN=<Token from previous step>
-```
-
-4. Test dyno restarting manually
-
-```bash
-heroku run rake heroku:restart --app <Heroku app name>
-```
-
-5. Set up Heroku Scheduler to restart hourly
-
-```
-rake heroku:restart
-```
-
-# Sentry for error tracking
-
-Set up Sentry for error tracking
-
-```
-heroku config:set SENTRY_DSN=<Sentry >
-```
-
----
-
 ![SetupGif](https://raw.githubusercontent.com/fastlane/boarding/master/assets/BoardingSetup.gif)
 
 ---
@@ -287,3 +245,47 @@ Help us keep `boarding` open and inclusive. Please read and follow our [Code of 
 This project is licensed under the terms of the MIT license. See the LICENSE file.
 
 > This project and all fastlane tools are in no way affiliated with Apple Inc. This project is open source under the MIT license, which means you have full access to the source code and can modify it to fit your own needs. All fastlane tools run on your own computer or server, so your credentials or other sensitive information will never leave your own computer. You are responsible for how you use fastlane tools.
+
+---
+
+# Bonobo extras
+
+## Scheduled dyno restarting
+
+1. Set up runtime-dyno-metadata:
+
+```bash
+heroku labs:enable runtime-dyno-metadata --app <Heroku app name>
+```
+
+2. Create OAuth token:
+
+```bash
+heroku authorizations:create -d "Fastlane boarding task"
+```
+
+3. Set token as config env:
+
+```bash
+heroku config:set HEROKU_OAUTH_TOKEN=<Token from previous step>
+```
+
+4. Test dyno restarting manually
+
+```bash
+heroku run rake heroku:restart --app <Heroku app name>
+```
+
+5. Set up Heroku Scheduler to restart hourly
+
+```
+rake heroku:restart
+```
+
+## Sentry for error tracking
+
+Set up Sentry for error tracking
+
+```
+heroku config:set SENTRY_DSN=<Sentry >
+```
