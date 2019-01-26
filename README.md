@@ -73,19 +73,61 @@ Thanks to [spaceship.airforce](https://spaceship.airforce) (oh well, I really ta
 
 Assuming you already have a [Heroku](https://www.heroku.com/) account follow those steps:
 
-* [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://www.heroku.com/deploy?template=https://github.com/fastlane/boarding)
-* Enter your iTunes Connect credentials and the bundle identifier of your app. This will all be stored on your own Heroku instance as environment variables
-* Click on `View` once the setup is complete and start sharing the URL
+- [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://www.heroku.com/deploy?template=https://github.com/fastlane/boarding)
+- Enter your iTunes Connect credentials and the bundle identifier of your app. This will all be stored on your own Heroku instance as environment variables
+- Click on `View` once the setup is complete and start sharing the URL
 
 Assuming you already have an [Azure](https://www.azure.com/) account follow those steps:
 
-* [![Deploy to Azure](https://azuredeploy.net/deploybutton.svg)](https://deploy.azure.com/?repository=https://github.com/fastlane/boarding)
-* Enter your iTunes Connect credentials and the bundle identifier of your app. This will all be stored on your own Heroku instance as environment variables
-* It can take up to 5 minutes until everything is loaded.
+- [![Deploy to Azure](https://azuredeploy.net/deploybutton.svg)](https://deploy.azure.com/?repository=https://github.com/fastlane/boarding)
+- Enter your iTunes Connect credentials and the bundle identifier of your app. This will all be stored on your own Heroku instance as environment variables
+- It can take up to 5 minutes until everything is loaded.
 
 `boarding` does all kinds of magic for you, like fetching the app name and app icon.
 
 Heroku is free to use for the standard machine. If you need a Heroku account, ask your back-end team if you already have a company account.
+
+---
+
+# Scheduled dyno restarting
+
+1. Set up runtime-dyno-metadata:
+
+```bash
+heroku labs:enable runtime-dyno-metadata --app <Heroku app name>
+```
+
+2. Create OAuth token:
+
+```bash
+heroku authorizations:create -d "Fastlane boarding task"
+```
+
+3. Set token as config env:
+
+```bash
+heroku config:set HEROKU_OAUTH_TOKEN=<Token from previous step>
+```
+
+4. Test dyno restarting manually
+
+```bash
+heroku run rake heroku:restart --app <Heroku app name>
+```
+
+5. Set up Heroku Scheduler to restart hourly
+
+```
+rake heroku:restart
+```
+
+# Sentry for error tracking
+
+Set up Sentry for error tracking
+
+```
+heroku config:set SENTRY_DSN=<Sentry >
+```
 
 ---
 
@@ -99,24 +141,24 @@ If your account is protected using 2-factor author, follow the [2 step verificat
 
 To secure your webpage, you only have to set the `ITC_TOKEN` environment variable to any password.
 
-* You can send your users the link and tell them the password
-* You can send them the direct link including the token like this: https://url.com/?token=[password]
+- You can send your users the link and tell them the password
+- You can send them the direct link including the token like this: https://url.com/?token=[password]
 
 ## Available environment variables
 
 **Required:**
 
-* `ITC_USER` iTunes Connect username
-* `ITC_PASSWORD` iTunes Connect password
-* `ITC_APP_ID` The Apple ID or Bundle Identifier of your app
+- `ITC_USER` iTunes Connect username
+- `ITC_PASSWORD` iTunes Connect password
+- `ITC_APP_ID` The Apple ID or Bundle Identifier of your app
 
 **Optional:**
 
-* `ITC_TOKEN` Set a password to protect your website from random people signing up
-* `ITC_CLOSED_TEXT` Set this text to temporary disable enrollment of new beta testers
-* `RESTRICTED_DOMAIN` Set this domain (in the format `domain.com`) to restrict users with emails in another domain from signing up. This list supports multiple domains by setting it to a comma delimited list (`domain1.com,domain2.com`)
-* `FASTLANE_ITC_TEAM_NAME` If you're in multiple teams, enter the name of your iTC team here. Make sure it matches.
-* `IMPRINT_URL` If you want a link to an imprint to be shown on the invite page.
+- `ITC_TOKEN` Set a password to protect your website from random people signing up
+- `ITC_CLOSED_TEXT` Set this text to temporary disable enrollment of new beta testers
+- `RESTRICTED_DOMAIN` Set this domain (in the format `domain.com`) to restrict users with emails in another domain from signing up. This list supports multiple domains by setting it to a comma delimited list (`domain1.com,domain2.com`)
+- `FASTLANE_ITC_TEAM_NAME` If you're in multiple teams, enter the name of your iTC team here. Make sure it matches.
+- `IMPRINT_URL` If you want a link to an imprint to be shown on the invite page.
 
 ## Custom Domain
 
@@ -126,7 +168,7 @@ With Azure you can easily use your own domain, follow [this guide](https://docs.
 
 ## Alternative Setup Options
 
-* Docker image: [emcniece/docker-boarding](https://github.com/emcniece/docker-boarding)
+- Docker image: [emcniece/docker-boarding](https://github.com/emcniece/docker-boarding)
 
 # How does this work?
 
@@ -136,8 +178,8 @@ Using [spaceship.airforce](https://spaceship.airforce) it is possible to manage 
 
 This repository is a simple Rails application with most code in these files:
 
-* [invite_controller.rb](https://github.com/fastlane/boarding/blob/master/app/controllers/invite_controller.rb)
-* [invite/index.html.erb](https://github.com/fastlane/boarding/blob/master/app/views/invite/index.html.erb)
+- [invite_controller.rb](https://github.com/fastlane/boarding/blob/master/app/controllers/invite_controller.rb)
+- [invite/index.html.erb](https://github.com/fastlane/boarding/blob/master/app/views/invite/index.html.erb)
 
 ![BoardingOverview](https://raw.githubusercontent.com/fastlane/boarding/master/assets/BoardingOverview.png)
 
@@ -147,14 +189,14 @@ More information about this automation process can be found [here](https://kraus
 
 If you want to change the design, layout or even add new features:
 
-* Install the [Heroku toolbelt](https://toolbelt.heroku.com/) and `heroku login`
-* Clone your application using `heroku git:clone --app [heroku_app_name]` (it will be an empty repo)
-* `cd [heroku_app_name]`
-* `git pull https://github.com/fastlane/boarding`
-* Modify the content, in particular the files that are described above.
-* Test it locally by running `ITC_USER="email" ITC_... rails s` and opening [http://127.0.0.1:3000](http://127.0.0.1:3000)
-* Commit the changes
-* `git push`
+- Install the [Heroku toolbelt](https://toolbelt.heroku.com/) and `heroku login`
+- Clone your application using `heroku git:clone --app [heroku_app_name]` (it will be an empty repo)
+- `cd [heroku_app_name]`
+- `git pull https://github.com/fastlane/boarding`
+- Modify the content, in particular the files that are described above.
+- Test it locally by running `ITC_USER="email" ITC_... rails s` and opening [http://127.0.0.1:3000](http://127.0.0.1:3000)
+- Commit the changes
+- `git push`
 
 It is recommended to also store your version in your git repo additionally to Heroku.
 
@@ -164,23 +206,23 @@ From time to time there will be updates to `boarding`. There are 2 ways to updat
 
 ### Recommended: Using the terminal
 
-* Install the [Heroku toolbelt](https://toolbelt.heroku.com/) and `heroku login`
-* Clone your application using `heroku git:clone --app [heroku_app_name]` (it will be an empty repo)
-* `cd [heroku_app_name]`
-* `git pull https://github.com/fastlane/boarding`
-* `git push`
+- Install the [Heroku toolbelt](https://toolbelt.heroku.com/) and `heroku login`
+- Clone your application using `heroku git:clone --app [heroku_app_name]` (it will be an empty repo)
+- `cd [heroku_app_name]`
+- `git pull https://github.com/fastlane/boarding`
+- `git push`
 
 ### Using Heroku website
 
-* Delete your application on [heroku.com](https://www.heroku.com/)
-* [Create a new boarding application](https://www.heroku.com/deploy?template=https://github.com/fastlane/boarding)
-* Enter your user credentials again
+- Delete your application on [heroku.com](https://www.heroku.com/)
+- [Create a new boarding application](https://www.heroku.com/deploy?template=https://github.com/fastlane/boarding)
+- Enter your user credentials again
 
 ### Using Azure website
 
-* Navigate to the [Azure Portal](https://portal.azure.com/)
-* Login and navigate to your WebApp
-* On `Overview` hit the restart button
+- Navigate to the [Azure Portal](https://portal.azure.com/)
+- Login and navigate to your WebApp
+- On `Overview` hit the restart button
 
 # Managing Azure version
 
@@ -191,20 +233,20 @@ This means that azure is running the [docker-version](https://github.com/emcniec
 
 In order to set the optional parameters for `boarding` follow these steps:
 
-* Navigate to the [Azure Portal](https://portal.azure.com/)
-* Login and navigate to your WebApp
-* Under `Settings` click `Application settings`
-* Click the link `+ Add new setting` and add the the optional parameter i.e. `ITC_CLOSED_TEXT` = `We are closed!`
-* Hit `Save` and navigate to `Overview`
-* On `Overview` hit the restart button
+- Navigate to the [Azure Portal](https://portal.azure.com/)
+- Login and navigate to your WebApp
+- Under `Settings` click `Application settings`
+- Click the link `+ Add new setting` and add the the optional parameter i.e. `ITC_CLOSED_TEXT` = `We are closed!`
+- Hit `Save` and navigate to `Overview`
+- On `Overview` hit the restart button
 
 ### Troubleshoot boarding on Azure
 
 When you run `boarding` on Azure, it could happen that you run into an HttpStatus 503 showing `Service Unavailable`
 There can be multiple reasons for that:
 
-* `boarding` isn't yet fully loaded. Wait a few minutes hit refresh.
-* The provided parameters are wrong (`ITC_USER`, `ITC_PASSWORD`, `ITC_APP_ID`). Please go to the settings in Azure and check if they are right.
+- `boarding` isn't yet fully loaded. Wait a few minutes hit refresh.
+- The provided parameters are wrong (`ITC_USER`, `ITC_PASSWORD`, `ITC_APP_ID`). Please go to the settings in Azure and check if they are right.
 
 For further troubleshooting, please got to [Azure App Service on Linux FAQ](https://docs.microsoft.com/en-us/azure/app-service/containers/app-service-linux-faq)
 
@@ -215,22 +257,25 @@ For further troubleshooting, please got to [Azure App Service on Linux FAQ](http
 Special thanks to [@lee_moonan](https://twitter.com/lee_moonan) for designing the awesome logo.
 
 # Development Setup
+
 1. `gem install bundler`
 1. `bundle install`
 1. Create a `.env.local` file with the following contents:
-    ```
-    # Required
-    ITC_APP_ID=<your_app_id>
-    ITC_USER=<your_email>
-    ITC_PASSWORD=<your_password>
 
-    # Optional
-    FASTLANE_ITC_TEAM_NAME=<your_team_name>
-    ITC_APP_TESTER_GROUPS=<your_groups>
-    ITC_TOKEN=<your_token>
-    GA_PROPERTY_ID=<your_ga_property_id>
-    IMPRINT_URL=<your_url>
-    ```
+   ```
+   # Required
+   ITC_APP_ID=<your_app_id>
+   ITC_USER=<your_email>
+   ITC_PASSWORD=<your_password>
+
+   # Optional
+   FASTLANE_ITC_TEAM_NAME=<your_team_name>
+   ITC_APP_TESTER_GROUPS=<your_groups>
+   ITC_TOKEN=<your_token>
+   GA_PROPERTY_ID=<your_ga_property_id>
+   IMPRINT_URL=<your_url>
+   ```
+
 1. `bundle exec rails s`
 
 # Code of Conduct
