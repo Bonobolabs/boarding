@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-# ruby '2.2.3'
+# ruby '2.3.3'
 
 # Updated for CVE-2018-16476: https://nvd.nist.gov/vuln/detail/CVE-2018-16476.
 gem 'activejob', '>= 4.2.11'
@@ -15,6 +15,9 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'
 
+# Vulnerable versions: >= 5.0.0, <= 5.0.7.1 
+gem "actionview", ">= 5.0.7.2"
+
 # Specify a sub-dependency of Rails
 # As there is a security vulnerability
 # in old versions of the library
@@ -24,9 +27,9 @@ gem "loofah", ">= 2.2.3"
 
 gem 'jquery-rails'
 
-gem 'fastlane', '>= 2.104.0', '< 3.0.0'
+gem 'fastlane', '>= 2.126.0', '< 3.0.0'
 
-gem 'bootstrap-sass', '~> 3.3.5'
+gem 'bootstrap-sass', '~> 3.4.1'
 
 # nokogiri 1.8.1 seems to be problematic
 gem 'nokogiri', '>= 1.8.1', '< 2.0.0'
